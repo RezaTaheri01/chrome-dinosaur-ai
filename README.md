@@ -89,7 +89,7 @@ When the AI reaches a specific score(defined in src/constants.py), the best-perf
 - Pygame for game development
 - NEAT-Python for neural evolution
 
-## Source Code Links:
+## Source Code Link:
 - [MaxRohowsky](https://github.com/MaxRohowsky/chrome-dinosaur)
 
 ---
