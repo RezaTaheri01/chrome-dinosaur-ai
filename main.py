@@ -7,6 +7,7 @@ from src.cloud import Cloud
 from src import constants as con
 from collections import deque
 
+spawn_chance = 0.1 # 10%
 
 def main():
     pygame.init()
@@ -23,9 +24,6 @@ def run_game():
     game_speed = 20
     points = 0
     death_count = 0
-    obstacle_distance = con.OBSTACLES_MAX_GAP
-    current_gap = con.OBSTACLES_MAX_GAP
-    reduce_point = game_speed + 10
 
     x_pos_bg = con.X_POS_BG
     y_pos_bg = con.Y_POS_BG
@@ -40,13 +38,9 @@ def run_game():
         player.update(pygame.key.get_pressed())
 
         manage_obstacles(obstacles, player, game_speed,
-                         death_count, points, obstacle_distance, current_gap)
+                         death_count, points)
         manage_clouds(clouds, game_speed)
         points, game_speed = update_score(points, game_speed)
-
-        obstacle_distance += game_speed
-        current_gap = adjust_obstacle_gap(
-            game_speed, reduce_point, current_gap)
 
         clock.tick(con.FPS)
         pygame.display.update()
@@ -76,11 +70,11 @@ def update_score(points, game_speed):
     return points, game_speed
 
 
-def manage_obstacles(obstacles, player, game_speed, death_count, points, obstacle_distance, current_gap):
-    if len(obstacles) > con.MAX_OBSTACLES:
+def manage_obstacles(obstacles, player, game_speed, death_count, points):
+    if obstacles and obstacles[0].rect_x < 0:
         obstacles.popleft()
 
-    if random.random() < 0.02:  # Random chance to spawn obstacle
+    if random.random() < spawn_chance:  # Random chance to spawn obstacle
         if not obstacles or con.SCREEN_WIDTH - obstacles[-1].rect_x + obstacles[-1].image[0].get_width() >= con.OBSTACLES_MIN_GAP:
             obstacles.append(random.choice([
                 SmallCactus(con.SMALL_CACTUS),
@@ -106,14 +100,6 @@ def manage_clouds(clouds, game_speed):
     for cloud in clouds:
         cloud.draw(con.SCREEN)
         cloud.update(game_speed // 2)
-
-
-def adjust_obstacle_gap(game_speed, reduce_point, current_gap):
-    if game_speed >= reduce_point:
-        reduce_point += 10
-        current_gap = max(con.OBSTACLES_MIN_GAP,
-                          current_gap - con.OBSTACLES_GAP_REDUCER)
-    return current_gap
 
 
 def menu(death_count, points):
