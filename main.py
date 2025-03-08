@@ -30,6 +30,11 @@ def run_game():
 
     run = True
     while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+                
         run = handle_events()
         con.SCREEN.fill(con.BG_COLOR)
 
