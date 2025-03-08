@@ -67,7 +67,7 @@ INCREASE_SPEED_DIV = 150
 MIN_GAP_INCREASE = 5
 
 # NEAT
-FPS_AI = 0  # set it to Zero for max speed
+FPS_AI = 60 # set it to Zero for max speed
 
 NEGATIVE_FITNESS = -1
 POSITIVE_FITNESS = 2.75
