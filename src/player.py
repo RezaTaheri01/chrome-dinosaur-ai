@@ -7,8 +7,9 @@ jump_img = con.JUMPING
 
 class Dinosaur:
     def __init__(self):
-        self.dino_run = True
-        self.dino_duck = False
+        # Default is Duck
+        self.dino_run = False
+        self.dino_duck = True
         self.dino_jump = False
 
         self.step_index = 0
@@ -28,7 +29,7 @@ class Dinosaur:
         if self.step_index >= 10:
             self.step_index = 0
 
-        if userInput[pygame.K_UP] and not self.dino_jump:
+        elif userInput[pygame.K_UP] and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
@@ -37,8 +38,8 @@ class Dinosaur:
             self.dino_duck = True
             self.dino_jump = False
         elif not (self.dino_jump or userInput[pygame.K_DOWN]):
-            self.dino_run = True
-            self.dino_duck = False
+            self.dino_run = False
+            self.dino_duck = True
             self.dino_jump = False
 
     def duck(self):
@@ -65,7 +66,6 @@ class Dinosaur:
     def draw(self, SCREEN):
         SCREEN.blit(self.image, (self.dino_rect_x, self.dino_rect_y))
         
-    
     def get_mask(self):
         return pygame.mask.from_surface(self.image)
 

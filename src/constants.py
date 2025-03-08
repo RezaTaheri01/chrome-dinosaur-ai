@@ -1,17 +1,21 @@
 import os
 import pygame
 
-# Global Constants
-PLAYER_MODE = True
+# Initialize Pygame
+pygame.init()
 
 # BG_COLOR = (25, 30, 55) # Navy Blue
 # FORE_COLOR = (255, 255, 255) # White
 
-FORE_COLOR = (25, 30, 55) # Navy Blue
-BG_COLOR = (255, 255, 255) # White
+FORE_COLOR = (25, 30, 55)  # Navy Blue
+BG_COLOR = (255, 255, 255)  # White
 
 SCREEN_WIDTH = 1100
 SCREEN_HEIGHT = 600
+
+SCREEN = pygame.display.set_mode(
+    (SCREEN_WIDTH, SCREEN_HEIGHT), pygame.DOUBLEBUF)
+pygame.display.set_caption("Dino Runner")
 
 
 # Load Assets
@@ -22,10 +26,12 @@ DUCKING = [pygame.image.load(os.path.join("Assets/Dino", "DinoDuck1.png")),
            pygame.image.load(os.path.join("Assets/Dino", "DinoDuck2.png"))]
 
 SMALL_CACTUS = [pygame.image.load(os.path.join("Assets/Cactus", "SmallCactus1.png")),
-                pygame.image.load(os.path.join("Assets/Cactus", "SmallCactus2.png")),
+                pygame.image.load(os.path.join(
+                    "Assets/Cactus", "SmallCactus2.png")),
                 pygame.image.load(os.path.join("Assets/Cactus", "SmallCactus3.png"))]
 LARGE_CACTUS = [pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus1.png")),
-                pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus2.png")),
+                pygame.image.load(os.path.join(
+                    "Assets/Cactus", "LargeCactus2.png")),
                 pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus3.png"))]
 
 BIRD = [pygame.image.load(os.path.join("Assets/Bird", "Bird1.png")),
@@ -49,6 +55,10 @@ Y_POS = 310
 Y_POS_DUCK = 340
 JUMP_VEL = 8.5
 
+# BG
+X_POS_BG = 0
+Y_POS_BG = 380
+
 
 BIRD_Y = 250
 SMALL_CACTUS_Y = 325
@@ -60,3 +70,17 @@ OBSTACLES_GAP_REDUCER = 20
 
 
 MAX_OBSTACLES = (SCREEN_WIDTH // OBSTACLES_MIN_GAP) + 2
+
+FONT = pygame.font.Font('freesansbold.ttf', 20)
+MENU_FONT = pygame.font.Font('freesansbold.ttf', 30)
+
+
+# NEAT
+FPS_AI = 30  # set it to Zero for max speed
+NEGATIVE_FITNESS = -1
+POSITIVE_FITNESS = 3
+BONUS_FITNESS = 0.1
+
+SCORE_LIMIT = 15000
+
+MAX_GEN = 50

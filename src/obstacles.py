@@ -8,10 +8,8 @@ class Obstacle:
         self.rect_x = con.SCREEN_WIDTH
         self.rect_y = 0
 
-    def update(self, speed: int, obstacles):
+    def update(self, speed: int):
         self.rect_x -= speed
-        # if self.rect_x < 0 and obstacles:
-        #     obstacles.pop(0)
 
     def draw(self, SCREEN):
         SCREEN.blit(self.image[self.type], (self.rect_x, self.rect_y))
