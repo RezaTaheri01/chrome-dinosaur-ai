@@ -7,6 +7,9 @@ This project is a Chrome Dinosaur clone built with Python and Pygame, featuring 
 - **Player Mode:** Control the Dino manually using the keyboard up and down.
 - **AI Mode:** Train an AI to play Chrome Dinosaur using NEAT.
 
+
+![Image](https://github.com/user-attachments/assets/7e42e0c0-1003-49eb-b92f-4f5363ea72b0)
+
 ## Installation
 
 1. Clone the repository:
@@ -39,37 +42,23 @@ flappy-bird-neat/
 │   ├── constants.py
 │   └── obstacles.py
 ├── config-feedforward.txt
+├── ai.py
 └── main.py
+
 ```
 
 ## How to Run
 
 - **Player Mode:**
 
-In `src/constants.py`, set `PLAYER_MODE` to `True`:
-
-```python
-PLAYER_MODE = True
-```
-
-Then run the game:
-
 ```sh
 python main.py
 ```
 
 - **AI Mode:**
-
-Set `PLAYER_MODE` to `False`:
-
-```python
-PLAYER_MODE = False
-```
-
-Run the NEAT training:
-
+  
 ```sh
-python main.py
+python ai.py
 ```
 
 ## Controls
