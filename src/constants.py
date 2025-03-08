@@ -64,12 +64,16 @@ FONT = pygame.font.Font('freesansbold.ttf', 20)
 MENU_FONT = pygame.font.Font('freesansbold.ttf', 30)
 
 INCREASE_SPEED_DIV = 150
+GAP_DIV = 90
 MIN_GAP_INCREASE = 5
+
+STABLE_SPEED = False # False => game speed increasing continuously
+
 
 # NEAT
 FPS_AI = 60 # set it to Zero for max speed
 
-NEGATIVE_FITNESS = -1
+NEGATIVE_FITNESS = -1.25
 POSITIVE_FITNESS = 2.75
 BONUS_FITNESS = 0.075
 
@@ -77,3 +81,5 @@ SCORE_LIMIT = 10_000
 MAX_GEN = 50
 SPAWN_CHANCE_AI = 0.05
 GAME_SPEED_AI = 20
+
+STABLE_SPEED_AI = False # False => game speed increasing continuously
