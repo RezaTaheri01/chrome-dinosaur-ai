@@ -1,5 +1,5 @@
 import pygame
-from . import constants  as con
+from . import constants as con
 
 duck_img = con.DUCKING
 run_img = con.RUNNING
@@ -28,19 +28,29 @@ class Dinosaur:
 
         if self.step_index >= 10:
             self.step_index = 0
-
-        elif userInput[pygame.K_UP] and not self.dino_jump:
-            self.dino_run = False
-            self.dino_duck = False
-            self.dino_jump = True
-        elif userInput[pygame.K_DOWN] and not self.dino_jump:
-            self.dino_run = False
-            self.dino_duck = True
-            self.dino_jump = False
-        elif not (self.dino_jump or userInput[pygame.K_DOWN]):
-            self.dino_run = False
-            self.dino_duck = True
-            self.dino_jump = False
+            
+        if type(userInput) == str:  # AI input
+            if userInput == 'j' and not self.dino_jump:
+                self.dino_run = False
+                self.dino_duck = False
+                self.dino_jump = True
+            elif userInput == 'd' and not self.dino_jump:
+                self.dino_run = False
+                self.dino_duck = True
+                self.dino_jump = False
+        else:  # Keyboard input
+            if userInput[pygame.K_UP] and not self.dino_jump:
+                self.dino_run = False
+                self.dino_duck = False
+                self.dino_jump = True
+            elif userInput[pygame.K_DOWN] and not self.dino_jump:
+                self.dino_run = False
+                self.dino_duck = True
+                self.dino_jump = False
+            elif not (self.dino_jump or userInput[pygame.K_DOWN]):
+                self.dino_run = False
+                self.dino_duck = True
+                self.dino_jump = False
 
     def duck(self):
         self.image = duck_img[self.step_index // 5]
@@ -59,7 +69,15 @@ class Dinosaur:
         if self.dino_jump:
             self.dino_rect_y -= self.jump_vel * 4
             self.jump_vel -= 0.8
-        if self.jump_vel < -con.JUMP_VEL:
+            
+            # Prevent flying too high
+            if self.dino_rect_y < con.Y_POS - 200:  
+                self.dino_rect_y = con.Y_POS - 200
+                self.jump_vel = -con.JUMP_VEL  # Force start falling down
+
+        # When landing, reset jump state
+        if self.dino_rect_y >= con.Y_POS:
+            self.dino_rect_y = con.Y_POS
             self.dino_jump = False
             self.jump_vel = con.JUMP_VEL
 
