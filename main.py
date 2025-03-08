@@ -7,11 +7,12 @@ from src.cloud import Cloud
 from src import constants as con
 from collections import deque
 
-spawn_chance = 0.1 # 10%
+spawn_chance = con.SPAWN_CHANCE
+min_gap = con.OBSTACLES_MIN_GAP
 
 def main():
     pygame.init()
-    run_game()
+    menu(0, 0)
     pygame.quit()
 
 
@@ -21,7 +22,7 @@ def run_game():
     clouds = [Cloud(power * 6) for power in range(1, 4)]
     obstacles = deque([])
 
-    game_speed = 20
+    game_speed = con.GAME_SPEED
     points = 0
     death_count = 0
 
@@ -66,9 +67,12 @@ def draw_background(x_pos_bg, y_pos_bg, game_speed):
 
 
 def update_score(points, game_speed):
+    global min_gap
     points += 1
-    if points % 100 == 0:
+    if points % con.INCREASE_SPEED_DIV == 0:
         game_speed += 1
+        # min_gap += con.MIN_GAP_INCREASE
+        min_gap += (min_gap // 100) - 1
 
     text = con.FONT.render(f"Points: {points}", True, con.FORE_COLOR)
     con.SCREEN.blit(text, text.get_rect(center=(1000, 40)))
@@ -80,7 +84,7 @@ def manage_obstacles(obstacles, player, game_speed, death_count, points):
         obstacles.popleft()
 
     if random.random() < spawn_chance:  # Random chance to spawn obstacle
-        if not obstacles or con.SCREEN_WIDTH - obstacles[-1].rect_x + obstacles[-1].image[0].get_width() >= con.OBSTACLES_MIN_GAP:
+        if not obstacles or con.SCREEN_WIDTH - obstacles[-1].rect_x + obstacles[-1].image[0].get_width() >= min_gap:
             obstacles.append(random.choice([
                 SmallCactus(con.SMALL_CACTUS),
                 LargeCactus(con.LARGE_CACTUS),
@@ -116,23 +120,25 @@ def menu(death_count, points):
         text = font.render("Press any Key to Start" if death_count ==
                            0 else "Press any Key to Restart", True, con.FORE_COLOR)
         con.SCREEN.blit(text, text.get_rect(
-            center=(con.con.SCREEN_WIDTH // 2, con.con.SCREEN_HEIGHT // 2)))
+            center=(con.SCREEN_WIDTH // 2, con.SCREEN_HEIGHT // 2)))
 
         if death_count > 0:
             score_text = font.render(
                 f"Your Score: {points}", True, con.FORE_COLOR)
             con.SCREEN.blit(score_text, score_text.get_rect(
-                center=(con.con.SCREEN_WIDTH // 2, con.con.SCREEN_HEIGHT // 2 + 50)))
-
+                center=(con.SCREEN_WIDTH // 2, con.SCREEN_HEIGHT // 2 + 50)))
+            
+        con.SCREEN.blit(con.RUNNING[0], (con.SCREEN_WIDTH // 2 - 20, con.SCREEN_HEIGHT // 2 - 140))
         pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                run = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return
-                main()
+                run_game()
 
 
 if __name__ == "__main__":
