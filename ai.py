@@ -10,6 +10,7 @@ from src.player import Dinosaur
 from src.obstacles import SmallCactus, LargeCactus, Bird
 from src.cloud import Cloud
 from src import constants as con
+import sys
 
 
 spawn_chance = con.SPAWN_CHANCE_AI
@@ -76,6 +77,7 @@ def eval_genomes(genomes, config):
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
+                sys.exit(0)
         run = handle_events()
         con.SCREEN.fill(con.BG_COLOR)
 
