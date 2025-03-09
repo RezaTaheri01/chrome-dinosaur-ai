@@ -34,7 +34,11 @@ def run_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                pygame.quit()
+                return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                    return False
                 
         run = handle_events()
         con.SCREEN.fill(con.BG_COLOR)
@@ -43,8 +47,10 @@ def run_game():
         player.draw(con.SCREEN)
         player.update(pygame.key.get_pressed())
 
-        manage_obstacles(obstacles, player, game_speed,
+        collide = manage_obstacles(obstacles, player, game_speed,
                          death_count, points)
+        if collide:
+            return True
         manage_clouds(clouds, game_speed)
         points, game_speed = update_score(points, game_speed)
 
@@ -82,7 +88,7 @@ def update_score(points, game_speed):
     return points, game_speed
 
 
-def manage_obstacles(obstacles, player, game_speed, death_count, points):
+def manage_obstacles(obstacles, player, game_speed, death_count, points) -> bool:
     if obstacles and obstacles[0].rect_x < 0:
         obstacles.popleft()
 
@@ -99,7 +105,8 @@ def manage_obstacles(obstacles, player, game_speed, death_count, points):
         obstacle.update(game_speed)
         if check_collision(player, obstacle):
             pygame.time.delay(1000)
-            menu(death_count + 1, points)
+            return True
+    return False
 
 
 def check_collision(player, obstacle):
@@ -137,11 +144,14 @@ def menu(death_count, points):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                pygame.quit()
+                return
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    run = False
                     return
-                run_game()
+                elif not run_game():
+                    run = False
+                    return
 
 
 if __name__ == "__main__":
