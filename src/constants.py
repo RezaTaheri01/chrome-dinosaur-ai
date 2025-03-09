@@ -34,6 +34,7 @@ LARGE_CACTUS = [pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus1.pn
                 pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus3.png"))]
 BIRD = [pygame.image.load(os.path.join("Assets/Bird", "Bird1.png")),
         pygame.image.load(os.path.join("Assets/Bird", "Bird2.png"))]
+BIRD = [pygame.transform.scale_by(img, 1.25) for img in BIRD]
 CLOUD = pygame.image.load(os.path.join("Assets/Other", "Cloud.png"))
 BG = pygame.image.load(os.path.join("Assets/Other", "Track.png"))
 
@@ -53,7 +54,7 @@ Y_POS_BG = 380
 # Obstacles
 SPAWN_CHANCE = 0.05
 
-BIRD_Y = 255
+BIRD_Y = 240
 SMALL_CACTUS_Y = 325
 LARGE_CACTUS_Y = 300
 OBSTACLES_MIN_GAP = 600
