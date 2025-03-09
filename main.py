@@ -69,9 +69,11 @@ def draw_background(x_pos_bg, y_pos_bg, game_speed):
 def update_score(points, game_speed):
     global min_gap
     points += 1
+    
     if not con.STABLE_SPEED:
         if points % con.INCREASE_SPEED_DIV == 0:
-            game_speed += 1
+            game_speed += con.GAME_SPEED_PLUS_AI
+            
             # min_gap += con.MIN_GAP_INCREASE
             min_gap += (min_gap // 100) - 1
 

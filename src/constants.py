@@ -68,7 +68,7 @@ GAP_DIV = 90
 MIN_GAP_INCREASE = 5
 
 STABLE_SPEED = False # False => game speed increasing continuously
-
+GAME_SPEED_PLUS = 1
 
 # NEAT
 FPS_AI = 60 # set it to Zero for max speed
@@ -83,3 +83,5 @@ SPAWN_CHANCE_AI = 0.05
 GAME_SPEED_AI = 20
 
 STABLE_SPEED_AI = False # False => game speed increasing continuously
+GAME_SPEED_PLUS_AI = 1 
+
