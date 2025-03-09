@@ -1,4 +1,7 @@
-# Todo: Balance between min_gap and game_speed
+# Todos:
+# Balance between min_gap and game_speed
+# Prevent unnecessary jumps
+
 import os
 import pickle
 import neat
@@ -15,7 +18,10 @@ import sys
 
 spawn_chance = con.SPAWN_CHANCE_AI
 generation = 0
+
 min_gap = con.OBSTACLES_MIN_GAP
+speed_factor_power = con.SPEED_FACTOR_POWER
+multiplier = con.MULTIPLIER
 
 dinosaurs: list[Dinosaur] = []
 nets = []
@@ -50,7 +56,7 @@ def run(config_file):
 
 def eval_genomes(genomes, config):
     global generation, highest
-        
+
     generation += 1
 
     clock = pygame.time.Clock()
@@ -90,8 +96,8 @@ def eval_genomes(genomes, config):
                 g.fitness -= con.NEGATIVE_FITNESS
             run = False
             highest = points
-            # with open("results.txt", "a") as file:
-            #     file.write(f"Gen: {generation}, Points: {points}\n")
+            with open("results.txt", "a") as file:
+                file.write(f"Gen: {generation}, Points: {points}\n")
             break
 
         for x, dino in enumerate(dinosaurs):
@@ -118,8 +124,7 @@ def eval_genomes(genomes, config):
         points, game_speed = update_score(points, game_speed, len(dinosaurs))
 
         clock.tick(con.FPS_AI)
-        
-            
+
         pygame.display.update()
 
         if points > con.SCORE_LIMIT:
@@ -157,15 +162,25 @@ def draw_background(x_pos_bg, y_pos_bg, game_speed):
 
 
 def update_score(points, game_speed, alive):
-    global min_gap
+    global min_gap, speed_factor_power, multiplier
     points += 1
-    
+
     if not con.STABLE_SPEED_AI:
+        speed_factor = game_speed / con.GAME_SPEED_AI
+
+        # Update power and multiplier every 1000 points
+        if points % con.INCREASE_FACTOR_POWER_DIV == 0:
+            speed_factor_power += con.SPEED_FACTOR_PLUS  # +0.1
+            multiplier += 1  # Gentle increase
+
+        # Update speed and gap every 100 points
         if points % con.INCREASE_SPEED_DIV == 0:
             game_speed += con.GAME_SPEED_PLUS_AI
-            
-            # min_gap += con.MIN_GAP_INCREASE
-            min_gap += (min_gap // con.GAP_DIV) + 1
+            base_min_gap = con.OBSTACLES_MIN_GAP
+            min_gap = base_min_gap * speed_factor  # Linear scaling
+            # Non-linear boost
+            min_gap = int(min_gap + (speed_factor **
+                          speed_factor_power) * multiplier)
 
     render_text(f"Points: {points}", (1000, 40))
     render_text(f"Gen: {generation}", (80, 40))

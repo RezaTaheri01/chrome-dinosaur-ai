@@ -8,7 +8,11 @@ from src import constants as con
 from collections import deque
 
 spawn_chance = con.SPAWN_CHANCE
+
 min_gap = con.OBSTACLES_MIN_GAP
+speed_factor_power = con.SPEED_FACTOR_POWER
+multiplier = con.MULTIPLIER
+
 
 def main():
     pygame.init()
@@ -39,7 +43,7 @@ def run_game():
                 if event.key == pygame.K_ESCAPE:
                     run = False
                     return False
-                
+
         run = handle_events()
         con.SCREEN.fill(con.BG_COLOR)
 
@@ -48,7 +52,7 @@ def run_game():
         player.update(pygame.key.get_pressed())
 
         collide = manage_obstacles(obstacles, player, game_speed,
-                         death_count, points)
+                                   death_count, points)
         if collide:
             return True
         manage_clouds(clouds, game_speed)
@@ -73,15 +77,25 @@ def draw_background(x_pos_bg, y_pos_bg, game_speed):
 
 
 def update_score(points, game_speed):
-    global min_gap
+    global min_gap, speed_factor_power, multiplier
     points += 1
-    
+
     if not con.STABLE_SPEED:
+        speed_factor = game_speed / con.GAME_SPEED
+
+        # Update power and multiplier every 1000 points
+        if points % con.INCREASE_FACTOR_POWER_DIV == 0:
+            speed_factor_power += con.SPEED_FACTOR_PLUS  # +0.1
+            multiplier += 1  # Gentle increase
+
+        # Update speed and gap every 100 points
         if points % con.INCREASE_SPEED_DIV == 0:
-            game_speed += con.GAME_SPEED_PLUS_AI
-            
-            # min_gap += con.MIN_GAP_INCREASE
-            min_gap += (min_gap // 100) - 1
+            game_speed += con.GAME_SPEED_PLUS
+            base_min_gap = con.OBSTACLES_MIN_GAP
+            min_gap = base_min_gap * speed_factor  # Linear scaling
+            # Non-linear boost
+            min_gap = int(min_gap + (speed_factor **
+                          speed_factor_power) * multiplier)
 
     text = con.FONT.render(f"Points: {points}", True, con.FORE_COLOR)
     con.SCREEN.blit(text, text.get_rect(center=(1000, 40)))
@@ -137,8 +151,9 @@ def menu(death_count, points):
                 f"Your Score: {points}", True, con.FORE_COLOR)
             con.SCREEN.blit(score_text, score_text.get_rect(
                 center=(con.SCREEN_WIDTH // 2, con.SCREEN_HEIGHT // 2 + 50)))
-            
-        con.SCREEN.blit(con.RUNNING[0], (con.SCREEN_WIDTH // 2 - 20, con.SCREEN_HEIGHT // 2 - 140))
+
+        con.SCREEN.blit(
+            con.RUNNING[0], (con.SCREEN_WIDTH // 2 - 20, con.SCREEN_HEIGHT // 2 - 140))
         pygame.display.update()
 
         for event in pygame.event.get():
