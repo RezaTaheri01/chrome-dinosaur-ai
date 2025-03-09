@@ -34,7 +34,7 @@ LARGE_CACTUS = [pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus1.pn
                 pygame.image.load(os.path.join("Assets/Cactus", "LargeCactus3.png"))]
 BIRD = [pygame.image.load(os.path.join("Assets/Bird", "Bird1.png")),
         pygame.image.load(os.path.join("Assets/Bird", "Bird2.png"))]
-BIRD = [pygame.transform.scale_by(img, 1.25) for img in BIRD]
+BIRD = [pygame.transform.scale_by(img, 1.3) for img in BIRD]
 CLOUD = pygame.image.load(os.path.join("Assets/Other", "Cloud.png"))
 BG = pygame.image.load(os.path.join("Assets/Other", "Track.png"))
 
@@ -64,15 +64,18 @@ CLOUD_Y_RNG = (50, 100)
 FONT = pygame.font.Font('freesansbold.ttf', 20)
 MENU_FONT = pygame.font.Font('freesansbold.ttf', 30)
 
-INCREASE_SPEED_DIV = 150
-GAP_DIV = 90
-MIN_GAP_INCREASE = 5
+# Gap Balance
+INCREASE_SPEED_DIV = 125
+INCREASE_FACTOR_POWER_DIV = 800 # at each 800 => speed_factor_power + SPEED_FACTOR_PLUS
+SPEED_FACTOR_PLUS = 0.15
+SPEED_FACTOR_POWER = 1.5 # non-linear 
+MULTIPLIER = 20
 
-STABLE_SPEED = False # False => game speed increasing continuously
+STABLE_SPEED = False  # False => game speed increasing continuously
 GAME_SPEED_PLUS = 1
 
 # NEAT
-FPS_AI = 60 # set it to Zero for max speed
+FPS_AI = 60  # set it to Zero for max speed
 
 NEGATIVE_FITNESS = -1.25
 POSITIVE_FITNESS = 2.75
@@ -83,6 +86,5 @@ MAX_GEN = 50
 SPAWN_CHANCE_AI = 0.05
 GAME_SPEED_AI = 20
 
-STABLE_SPEED_AI = False # False => game speed increasing continuously
-GAME_SPEED_PLUS_AI = 1 
-
+STABLE_SPEED_AI = False  # False => game speed increasing continuously
+GAME_SPEED_PLUS_AI = 1
