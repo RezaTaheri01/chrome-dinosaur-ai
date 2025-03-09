@@ -49,9 +49,6 @@ def run(config_file):
 
 def eval_genomes(genomes, config):
     global generation, highest
-    
-    # with open("results.txt", "a") as file:
-    #     file.write(f"Gen: {generation}, Highest: {highest}\n")
         
     generation += 1
 
@@ -90,6 +87,9 @@ def eval_genomes(genomes, config):
             for g in ge:
                 g.fitness -= con.NEGATIVE_FITNESS
             run = False
+            highest = points
+            # with open("results.txt", "a") as file:
+            #     file.write(f"Gen: {generation}, Points: {points}\n")
             break
 
         for x, dino in enumerate(dinosaurs):
@@ -121,7 +121,6 @@ def eval_genomes(genomes, config):
         pygame.display.update()
 
         if points > con.SCORE_LIMIT:
-            # highest = points
             save_best_genome(config)
 
 
