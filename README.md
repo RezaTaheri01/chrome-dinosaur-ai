@@ -1,4 +1,4 @@
-# Chrome Dinosaur with NEAT AI
+# Chrome Dinosaur with NEAT AI(pre-alpha)
 
 This project is a Chrome Dinosaur clone built with Python and Pygame, featuring both a player-controlled mode and an AI mode powered by the NEAT (NeuroEvolution of Augmenting Topologies) algorithm.
 
