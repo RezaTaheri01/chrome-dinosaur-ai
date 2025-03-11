@@ -7,7 +7,7 @@ This project is a Chrome Dinosaur clone built with Python and Pygame, featuring 
 - **Player Mode:** Control the Dino manually using the keyboard up and down.
 - **AI Mode:** Train an AI to play Chrome Dinosaur using NEAT.
 
-https://github.com/user-attachments/assets/ba00d45b-1e47-422b-b268-05091ada7ff2
+https://github.com/user-attachments/assets/a949d4be-078b-4b4f-bd9d-deff41c578f6
 
 ## Installation
 
