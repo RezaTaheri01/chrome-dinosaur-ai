@@ -29,7 +29,7 @@ pip install pygame neat-python
 3. Set up the project structure:
 
 ```
-flappy-bird-neat/
+chrome-dinosaur-ai/
 ├── Assets/
 │   ├── Bird
 │   ├── Cactus
